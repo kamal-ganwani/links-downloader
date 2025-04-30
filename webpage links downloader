@@ -1,0 +1,21 @@
+WEBSITE="https://www.example.com" # Replace with the target website
+OUTPUT_FILE="links.txt" # Name of the file to store the extracted links
+USER_AGENT="MyWebScraper/1.0" # User agent string
+
+# --- Script Logic ---
+
+# Fetch the website content
+content=$(curl -s -A "$USER_AGENT" "$WEBSITE")
+
+# Extract links using grep and sed
+links=$(echo "$content" | grep -oE 'href="[^"]*"' | sed 's/href="//g' | sed 's/"//g')
+
+# Save the links to a file
+if [ -n "$links" ]; then
+ echo "$links" > "$OUTPUT_FILE"
+ echo "Extracted links saved to $OUTPUT_FILE"
+else
+ echo "No links found on the webpage."
+fi
+
+exit 0
